@@ -6,7 +6,7 @@ from contextlib import contextmanager
 from requests.exceptions import ConnectionError
 from unittest.mock import patch, MagicMock, Mock, create_autospec, ANY
 
-import hologram
+import dbt.dataclass_schema
 
 import dbt.flags as flags
 
@@ -357,7 +357,7 @@ class TestBigQueryRelation(unittest.TestCase):
                 'identifier': False
             }
         }
-        BigQueryRelation.from_dict(kwargs)
+        BigQueryRelation.from_dict(kwargs, validate=True)
 
     def test_view_relation(self):
         kwargs = {
@@ -372,7 +372,7 @@ class TestBigQueryRelation(unittest.TestCase):
                 'schema': True
             }
         }
-        BigQueryRelation.from_dict(kwargs)
+        BigQueryRelation.from_dict(kwargs, validate=True)
 
     def test_table_relation(self):
         kwargs = {
@@ -387,7 +387,7 @@ class TestBigQueryRelation(unittest.TestCase):
                 'schema': True
             }
         }
-        BigQueryRelation.from_dict(kwargs)
+        BigQueryRelation.from_dict(kwargs, validate=True)
 
     def test_external_source_relation(self):
         kwargs = {
@@ -402,7 +402,7 @@ class TestBigQueryRelation(unittest.TestCase):
                 'schema': True
             }
         }
-        BigQueryRelation.from_dict(kwargs)
+        BigQueryRelation.from_dict(kwargs, validate=True)
 
     def test_invalid_relation(self):
         kwargs = {
@@ -417,8 +417,8 @@ class TestBigQueryRelation(unittest.TestCase):
                 'schema': True
             }
         }
-        with self.assertRaises(hologram.ValidationError):
-            BigQueryRelation.from_dict(kwargs)
+        with self.assertRaises(dbt.dataclass_schema.ValidationError):
+            BigQueryRelation.from_dict(kwargs, validate=True)
 
 
 class TestBigQueryInformationSchema(unittest.TestCase):
@@ -444,7 +444,7 @@ class TestBigQueryInformationSchema(unittest.TestCase):
                 'identifier': True,
             }
         }
-        relation = BigQueryRelation.from_dict(kwargs)
+        relation = BigQueryRelation.from_dict(kwargs, validate=True)
         info_schema = relation.information_schema()
 
         tables_schema = info_schema.replace(information_schema_view='__TABLES__')

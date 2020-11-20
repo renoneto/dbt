@@ -51,7 +51,7 @@ from dbt.parser.sources import patch_sources
 from dbt.ui import warning_tag
 from dbt.version import __version__
 
-from hologram import JsonSchemaMixin
+from dbt.dataclass_schema import JsonSchemaMixin
 
 PARTIAL_PARSE_FILE_NAME = 'partial_parse.pickle'
 PARSING_STATE = DbtProcessState('parsing')

@@ -27,6 +27,8 @@ class ManifestContext(ConfiguredContext):
         self.search_package = search_package
         self.macro_stack = MacroStack()
         builder = self._get_namespace_builder()
+        # this takes all the macros in the manifest and adds them
+        # to the MacroNamespaceBuilder stored in self.namespace
         self.namespace = builder.build_namespace(
             self.manifest.macros.values(),
             self._ctx,

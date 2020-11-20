@@ -1269,12 +1269,16 @@ class ModelContext(ProviderContext):
         return self.db_wrapper.Relation.create_from(self.config, self.model)
 
 
+# This is called by '_context_for', used in 'render_with_context'
 def generate_parser_model(
     model: ManifestNode,
     config: RuntimeConfig,
     manifest: Manifest,
     context_config: ContextConfig,
 ) -> Dict[str, Any]:
+    # The __init__ method of ModelContext also initializes
+    # a ManifestContext object which creates a MacroNamespaceBuilder
+    # which adds every macro in the Manifest.
     ctx = ModelContext(
         model, config, manifest, ParseProvider(), context_config
     )

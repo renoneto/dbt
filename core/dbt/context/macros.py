@@ -94,25 +94,26 @@ class MacroNamespaceBuilder:
 
     def _add_macro_to(
         self,
-        heirarchy: Dict[str, FlatNamespace],
+        hierarchy: Dict[str, FlatNamespace],
         macro: ParsedMacro,
         macro_func: MacroGenerator,
     ):
-        if macro.package_name in heirarchy:
-            namespace = heirarchy[macro.package_name]
+        if macro.package_name in hierarchy:
+            namespace = hierarchy[macro.package_name]
         else:
             namespace = {}
-            heirarchy[macro.package_name] = namespace
+            hierarchy[macro.package_name] = namespace
 
         if macro.name in namespace:
             raise_duplicate_macro_name(
                 macro_func.macro, macro, macro.package_name
             )
-        heirarchy[macro.package_name][macro.name] = macro_func
+        hierarchy[macro.package_name][macro.name] = macro_func
 
     def add_macro(self, macro: ParsedMacro, ctx: Dict[str, Any]):
         macro_name: str = macro.name
 
+        # MacroGenerator is in clients/jinja.py
         macro_func: MacroGenerator = MacroGenerator(
             macro, ctx, self.node, self.thread_ctx
         )
