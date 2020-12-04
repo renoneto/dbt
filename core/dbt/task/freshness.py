@@ -42,8 +42,8 @@ class FreshnessRunner(BaseRunner):
     def after_execute(self, result):
         print_freshness_result_line(result, self.node_index, self.num_nodes)
 
-    def _build_run_result(self, node, start_time, error, status, timing_info,
-                          skip=False, failed=None):
+    def _build_run_result(self, node, start_time, status, timing_info, message,
+                          agate_table=None):
         execution_time = time.time() - start_time
         thread_id = threading.current_thread().name
         status = utils.lowercase(status)
@@ -54,7 +54,7 @@ class FreshnessRunner(BaseRunner):
             execution_time=execution_time,
             thread_id=thread_id,
             timing=timing_info,
-            message=""
+            message=message
         )
 
     def from_run_result(self, result, start_time, timing_info):

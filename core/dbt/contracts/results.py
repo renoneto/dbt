@@ -91,7 +91,7 @@ class BaseResult(JsonSchemaMixin):
     timing: List[TimingInfo]
     thread_id: str
     execution_time: float
-    message: Optional[str]
+    message: Optional[Union[str, int]]
 
 
 @dataclass
@@ -236,7 +236,7 @@ class FreshnessErrorEnum(StrEnum):
 @dataclass
 class SourceFreshnessRuntimeError(JsonSchemaMixin):
     unique_id: str
-    error: str
+    error: Union[str, int]  # TODO(kw) this is to fix mypy
     state: FreshnessErrorEnum
 
 
